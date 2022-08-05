@@ -58,20 +58,21 @@ public class Main {
         //Наша задача — доработать код, а именно написать метод, который на вход принимает дистанцию и возвращает итоговое количество дней доставки.
         System.out.println("Задание 3");
         int deliveryDistance = 95;      //дистанция до клиента в км.
-            System.out.println("Потребуется дней: " + calcDeliveryTime(deliveryDistance) );     //печатаем результат проверки срока вызывая метод расчёта в методе печати
-        }
+        System.out.println("Потребуется дней: " + calcDeliveryTime(deliveryDistance));     //печатаем результат проверки срока вызывая метод расчёта в методе печати
+    }
 
-    public static void checkLeapYear (int yearToCheck) { //метод проверки года на високосность
-        int checkDiv4 = 4;
-        int checkDiv100 = 100;
-        int checkDiv400 = 400;
-        if (((yearToCheck%checkDiv4==0) || !(yearToCheck%checkDiv100==0)) &&  (yearToCheck%checkDiv400==0)) {   //проверяем условия високосности
+    public static void checkLeapYear(int yearToCheck) { //метод проверки года на високосность
+        if (((yearToCheck % 4 == 0) || !(yearToCheck % 100 == 0)) && (yearToCheck % 400 == 0)) {   //проверяем условия високосности високосный год должен делится без остатка на 4 и 400, но не на 100
             System.out.println(yearToCheck + " год является високосным");
+        } else {
+            System.out.println(yearToCheck + " год не является високосным");
         }
-        else System.out.println(yearToCheck + " год не является високосным");
     }
 
     public static void appVersionChecker(int osModel, int mnfYear) {        //метод определения версии приложения для установки
+        if (osModel != 0 && osModel != 1) {           //проверяем поддерживаемые нашим приложением ОС
+            throw new RuntimeException("Ошибка, данная операционная система не поддерживается");
+        }
         int currentYear = LocalDate.now().getYear();       //год начиная с которого подходит обычное приложение (текущий год)
         boolean isAndroidOsOnPhone = osModel == 1;     //объявляем лог. переменную, которая в зависимости от ОС пользователя будет true или false, по умолчанию android
         boolean devicesYearFits = mnfYear >= currentYear;       //лог. переменная для определения подходящего года выпуска
@@ -90,13 +91,14 @@ public class Main {
         int firstDeliveryRadius = 20;   //радиус доставки за 1 сутки
         int secondDeliveryRadius = 60;  //радиус доставки за 2 суток
         int thirdDeliveryRadius = 100;  //радиус доставки за 3 суток
-        if (distance > thirdDeliveryRadius) {           //проверяем входит ли расстояние в возможные для доставки
+        if (distance > thirdDeliveryRadius || distance < 0) {           //проверяем входит ли расстояние в возможные для доставки
             throw new RuntimeException("Ошибка, на данное расстояние не доставляем");
         }
         int dayToDelivery = 1;      // минимальное количество дней для доставки карты при расстоянии до 20км
         if (distance >= firstDeliveryRadius) {      //если больше чем на 20 км доставка то +1 день
             dayToDelivery += 1;
-        } if (distance >= secondDeliveryRadius) {    //если больше чем на 60 км доставка то еще +1 день
+        }
+        if (distance >= secondDeliveryRadius) {    //если больше чем на 60 км доставка то еще +1 день
             dayToDelivery += 1;
         }
         return dayToDelivery;
